@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const puppeteerConfig = require('../../puppeteer.config');
 
 module.exports = {
 
@@ -6,7 +7,7 @@ module.exports = {
 
         const facebook = {};
 
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch(puppeteerConfig.puppetterHerokuLaunch);
 
         const page = await browser.newPage();
 
