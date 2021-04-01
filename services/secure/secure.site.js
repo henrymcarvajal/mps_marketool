@@ -5,7 +5,12 @@ module.exports = {
 
     verify: async (siteURL) => {
 
-        const browser = await puppeteer.launch(puppeteerConfig.puppetterHerokuLaunch);
+        const browser = await puppeteer.launch({
+            args: [
+              '--no-sandbox',
+              '--disable-setuid-sandbox',
+            ],
+          });
         const page = await browser.newPage();
 
         const userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.39 Safari/537.36';
