@@ -1,0 +1,66 @@
+extends layout
+
+block content
+  h1 Verificar sitio
+
+  form(method='POST' action='/verify')
+    div.form-group
+      label(for='site') Sitio:
+      input#site_name.form-control(type='text', placeholder='sitio-sospechoso.com' name='site' required='true')
+      button.btn.btn-primary(type='submit') Verificar
+
+  if siteRating
+
+    - var rating = '--rating: ' + siteRating + "%";
+    div.container
+      div.rating(style=rating) #{siteRating}%
+
+  if siteDetails
+     h2 Detalles de #{siteDetails.site}:
+     table(border='1')
+      tr
+        td
+          h3 Sitio seguro?
+        td #{siteDetails.secure}
+      tr 
+        td
+          h3 Redes sociales:
+        td
+          if siteDetails.socialNetworks
+            each val, key in siteDetails.socialNetworks
+              - var url = val
+              li= key + ": " + val
+          else 
+            p
+              i Ninguna
+      tr
+        td
+          h3 Registro
+        td
+          if siteDetails.registry['Domain Information']
+            h3 Información del dominio:          
+            each val, key in siteDetails.registry['Domain Information']
+              li= key + ": " + val
+          if siteDetails.registry['Registrant Contact']
+            h3 Contacto del registrante:          
+            each val, key in siteDetails.registry['Registrant Contact']
+              li= key + ": " + val
+      if siteDetails.facebook
+        tr
+          td(rowspan=2)
+            h3 Facebook
+          td
+            p
+              b 'Me gusta':
+              #{siteDetails.facebook.community.likes}
+            p
+              b Seguidores:
+              #{siteDetails.facebook.community.follows}
+            p
+              b Calificación:
+              #{siteDetails.facebook.reviews.rating}
+            p
+              b Comentarios
+              each val in siteDetails.facebook.reviews.comments
+                li= val
+
